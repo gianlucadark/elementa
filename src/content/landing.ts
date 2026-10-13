@@ -13,6 +13,22 @@ export const restaurant = {
   maps: 'https://www.google.com/maps/search/?api=1&query=La%20Magnatora%20Via%20Fossella%205%20Fondi',
 };
 
+/** Weekly opening, Monday first. Same two services every open day; Wednesday closed. */
+export const services = [
+  { id: 'pranzo', label: 'pranzo', opens: '12:00', closes: '15:00' },
+  { id: 'cena', label: 'cena', opens: '19:00', closes: '23:00' },
+] as const;
+
+export const week = [
+  { day: 'Lunedì', open: true },
+  { day: 'Martedì', open: true },
+  { day: 'Mercoledì', open: false },
+  { day: 'Giovedì', open: true },
+  { day: 'Venerdì', open: true },
+  { day: 'Sabato', open: true },
+  { day: 'Domenica', open: true },
+];
+
 export const cuisine = [
   { title: 'La pasta fatta in casa', note: 'Il piacere delle cose fatte da noi. Una parte delle nostre specialità nasce dalla pasta preparata in cucina.' },
   { title: 'Il mare', note: 'Pesce fresco e frutti di mare locali nella nostra proposta à la carte.' },

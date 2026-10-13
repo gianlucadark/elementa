@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Experience from '../components/landing/Experience';
-import { cuisine, occasions, restaurant } from '../content/landing';
+import { cuisine, occasions, restaurant, services, week } from '../content/landing';
 import '../styles/landing.css';
 
 const chapters = [
@@ -9,16 +9,40 @@ const chapters = [
   { title: 'La tavola apparecchiata.' },
   { title: 'Vi aspettiamo.' },
 ];
+const nav = [
+  { href: '#storia', label: 'La nostra storia', className: 'nav-story' },
+  { href: '#menu', label: 'La cucina' },
+  { href: '#cantina', label: 'La cantina', className: 'nav-wine' },
+  { href: '#eventi', label: 'Eventi', className: 'nav-events' },
+];
+const hoursLabel = services.map((s) => `${s.opens}–${s.closes}`).join(' · ');
 ---
 
 <Base title="Elementa – La Magnatora | Ristorante e pizzeria a Fondi" description="A Fondi, oltre mezzo secolo di ospitalità. Cucina di mare e di terra, pasta fatta in casa, pizza al forno a legna ed eventi. Scopri Elementa – La Magnatora.">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
-  <noscript><style is:inline>.scene-loader{display:none!important}.hero{visibility:visible!important}.scene-unavailable{display:none!important}.scene-story{height:auto!important}.scene-shell{position:relative!important;top:0!important;height:auto!important}.scene-lines{display:flex!important;flex-direction:column;gap:15px}.scene-line{visibility:visible!important;opacity:1!important}.scene-index,.scene-skip,.scene-progress{display:none!important}.scene-editorial{position:relative!important;inset:auto!important;display:block!important;visibility:visible!important;opacity:1!important;padding:30px var(--gutter)!important;background:var(--bg)!important;color:var(--ink)!important}.scene-line p{color:var(--ink-soft)!important}.site-header{background:var(--bg)!important;color:var(--bordeaux)!important}.site-header .brand,.site-header .header-book{color:var(--bordeaux)!important}.site-header .header-book{border-color:var(--bordeaux)!important}</style></noscript>
+  <noscript><style is:inline>.scene-loader{display:none!important}.hero{visibility:visible!important}.scene-unavailable{display:none!important}.scene-story{height:auto!important}.scene-shell{position:relative!important;top:0!important;height:auto!important}.scene-lines{display:flex!important;flex-direction:column;gap:15px}.scene-line{visibility:visible!important;opacity:1!important}.scene-skip{display:none!important}.scene-editorial{position:relative!important;inset:auto!important;display:block!important;visibility:visible!important;opacity:1!important;padding:30px var(--gutter)!important;background:var(--bg)!important;color:var(--ink)!important}.site-header{background:var(--bg)!important;color:var(--bordeaux)!important}.menu-toggle{display:none!important}</style></noscript>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Elementa – La Magnatora, inizio pagina"><span class="brand__name">ELEMENTA</span><span class="brand__signature">La Magnatora</span></a>
-    <nav aria-label="Navigazione principale"><a class="nav-story" href="#storia">La nostra storia</a><a href="#menu">La cucina</a><a class="nav-wine" href="#cantina">La cantina</a><a class="nav-events" href="#eventi">Eventi</a></nav>
+    <nav aria-label="Navigazione principale">{nav.map((item) => <a class={item.className} href={item.href}>{item.label}</a>)}</nav>
     <a class="header-book" href="#prenota">Prenota</a>
+    <button class="menu-toggle" type="button" aria-haspopup="dialog" aria-controls="nav-sheet">Menu</button>
   </header>
+
+  <dialog class="nav-sheet" id="nav-sheet" aria-label="Navigazione">
+    <div class="nav-sheet__top">
+      <span class="brand"><span class="brand__name">ELEMENTA</span><span class="brand__signature">La Magnatora</span></span>
+      <button class="nav-sheet__close" type="button">Chiudi</button>
+    </div>
+    <nav class="nav-sheet__links" aria-label="Sezioni">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href="#prenota">Prenota un tavolo</a>
+    </nav>
+    <div class="nav-sheet__foot">
+      <p class="open-status" data-open-status><span class="open-status__dot" aria-hidden="true"></span><span data-open-status-text>{restaurant.closed}</span></p>
+      <a href={`tel:${restaurant.telephone}`}>{restaurant.telephoneLabel}</a>
+      <span>{restaurant.address}</span>
+    </div>
+  </dialog>
 
   <main id="contenuto">
     <div id="top"></div>
@@ -46,53 +70,95 @@ const chapters = [
           </div>
         </div>
         <div class="scene-editorial">
-          
           <div class="scene-lines">{chapters.map((chapter, i) => <div class="scene-line" data-line={i}><h2>{chapter.title}</h2></div>)}</div>
           <a class="scene-skip" href="#storia" aria-label="Prosegui alla storia di Elementa">Continua</a>
         </div>
-        
       </div>
     </section>
 
-    <section class="story-section wrap section-space" id="storia" aria-labelledby="story-title">
-      <div class="section-label"><span class="eyebrow">Da oltre mezzo secolo, a Fondi</span></div>
-      <div class="story-section__body"><h2 id="story-title">La Magnatora,<br />oggi Elementa.</h2><div class="story-columns"><p class="lead">Una nuova pagina, una storia di ospitalità lunga oltre mezzo secolo.</p><p>Elementa affianca il nome La Magnatora e ne custodisce il legame con Fondi. Dalla cucina ai ricevimenti, continuiamo a dare spazio a ciò che ci riunisce: un pranzo in famiglia, una cena tra amici, una ricorrenza da festeggiare.</p></div><a class="text-link" href="#menu">Scopri la nostra cucina</a></div>
+    <section class="story wrap section-space" id="storia" aria-labelledby="story-title">
+      <p class="eyebrow story__label" data-reveal>Da oltre mezzo secolo, a Fondi</p>
+      <h2 id="story-title" data-reveal>La Magnatora,<br />oggi Elementa.</h2>
+      <div class="story__text" data-reveal>
+        <p class="lead">Una nuova pagina, una storia di ospitalità lunga oltre mezzo secolo.</p>
+        <p>Elementa affianca il nome La Magnatora e ne custodisce il legame con Fondi. Dalla cucina ai ricevimenti, continuiamo a dare spazio a ciò che ci riunisce: un pranzo in famiglia, una cena tra amici, una ricorrenza da festeggiare.</p>
+      </div>
+      <dl class="story__facts" data-reveal>
+        <div><dt class="eyebrow">La casa</dt><dd>Ristorante, pizzeria{" "}<br />e ricevimenti</dd></div>
+        <div><dt class="eyebrow">La tavola</dt><dd>Pranzo e cena,{" "}<br />{restaurant.closed.toLowerCase()}</dd></div>
+        <div><dt class="eyebrow">L’indirizzo</dt><dd>Via Fossella 5,{" "}<br />Fondi</dd></div>
+      </dl>
     </section>
 
-    <section class="details-section wrap" aria-labelledby="details-title">
-      <figure class="detail-picture"><picture><source srcset="/posters/detail.avif" type="image/avif" /><img src="/posters/detail.webp" alt="Il centrino, il tovagliolo e i riflessi dei bicchieri nella scena di Elementa." width="1920" height="1080" loading="lazy" /></picture></figure>
-      <div class="details-copy"><h2 id="details-title">Intorno alla tavola.</h2><p>Ci sono pranzi che diventano pomeriggi e cene che si vorrebbe far durare ancora. La nostra idea di accoglienza parte da qui: lasciare spazio alle conversazioni, ai sapori e al piacere di ritrovarsi.</p></div>
+    <section class="table-detail wrap" aria-labelledby="details-title">
+      <figure class="frame" data-reveal><picture><source srcset="/posters/detail.avif" type="image/avif" /><img src="/posters/detail.webp" alt="Il centrino, il tovagliolo e i riflessi dei bicchieri nella scena di Elementa." width="1920" height="1080" loading="lazy" /></picture></figure>
+      <div class="table-detail__copy" data-reveal><h2 id="details-title">Intorno alla tavola.</h2><p>Ci sono pranzi che diventano pomeriggi e cene che si vorrebbe far durare ancora. La nostra idea di accoglienza parte da qui: lasciare spazio alle conversazioni, ai sapori e al piacere di ritrovarsi.</p></div>
     </section>
 
-    <section class="menu-section section-space" id="menu" aria-labelledby="menu-title"><div class="wrap">
-      <div class="menu-intro"><div><p class="eyebrow">Mare, terra e forno a legna</p><h2 id="menu-title">La nostra cucina.</h2></div><div><p>Una proposta à la carte che mette insieme il mare, i sapori della terra e la convivialità della pizza.</p></div></div>
-      <div class="menu-grid">{cuisine.map(({ title, note }, i) => <article class="course"><div class="course-heading"><h3>{title}</h3><span class="eyebrow">0{i + 1}</span></div><p class="course-description">{note}</p></article>)}</div>
-      <div class="menu-request"><p>Per conoscere i piatti, i prezzi e le disponibilità del momento, contattaci. Segnalaci eventuali allergie o esigenze alimentari quando prenoti.</p><a class="text-link" href={`tel:${restaurant.telephone}`}>Chiedi il menu</a></div>
+    <section class="menu-section section-space" id="menu" aria-labelledby="menu-title"><div class="wrap menu-layout">
+      <div class="menu-intro" data-reveal>
+        <p class="eyebrow">Mare, terra e forno a legna</p>
+        <h2 id="menu-title">La nostra cucina.</h2>
+        <p>Una proposta à la carte che mette insieme il mare, i sapori della terra e la convivialità della pizza.</p>
+      </div>
+      <article class="carta" aria-label="La carta" data-reveal>
+        <header class="carta__head"><span class="brand__name">ELEMENTA</span><span class="brand__signature">la carta</span></header>
+        <div class="carta__courses">{cuisine.map(({ title, note }) => <section class="carta__course"><h3>{title}</h3><p>{note}</p></section>)}</div>
+        <footer class="carta__foot">
+          <p>Piatti, prezzi e disponibilità cambiano con la stagione: chiedeteci il menu del momento. Segnalateci allergie o esigenze alimentari quando prenotate.</p>
+          <a class="text-link" href={`tel:${restaurant.telephone}`}>Chiedi il menu</a>
+        </footer>
+      </article>
     </div></section>
 
     <section class="wine-section wrap section-space" id="cantina" aria-labelledby="wine-title">
-      <div class="wine-copy"><p class="eyebrow">Il piacere dell’abbinamento</p><h2 id="wine-title">La cantina.</h2><p>Un calice accompagna un piatto, un brindisi segna un momento. La nostra cantina riunisce vini e bollicine da accostare alla cucina e alle occasioni da celebrare.</p><p class="wine-invitation">Lasciati accompagnare nella scelta di un vino che incontri i tuoi gusti e valorizzi ciò che hai ordinato.</p><a class="text-link" href="#prenota">Ci vediamo a tavola</a></div>
-      <figure class="wine-picture"><picture><source srcset="/posters/hero-evening.avif" type="image/avif" /><img src="/posters/hero-evening.webp" alt="La luce della candela e i calici sulla tavola di Elementa." width="1920" height="1080" loading="lazy" /></picture></figure>
+      <figure class="frame wine-picture" data-reveal><picture><source srcset="/posters/hero-evening.avif" type="image/avif" /><img src="/posters/hero-evening.webp" alt="La luce della candela e i calici sulla tavola di Elementa." width="1920" height="1080" loading="lazy" /></picture></figure>
+      <div class="wine-copy" data-reveal><p class="eyebrow">Il piacere dell’abbinamento</p><h2 id="wine-title">La cantina.</h2><p>Un calice accompagna un piatto, un brindisi segna un momento. La nostra cantina riunisce vini e bollicine da accostare alla cucina e alle occasioni da celebrare.</p><p>Lasciatevi accompagnare nella scelta di un vino che incontri i vostri gusti e valorizzi ciò che avete ordinato.</p></div>
     </section>
 
-    <section class="events-section section-space" id="eventi" aria-labelledby="events-title"><div class="wrap">
-      <div class="menu-intro"><div><p class="eyebrow">Eventi e ricevimenti</p><h2 id="events-title">Le occasioni<br />da ricordare.</h2></div><div><p>Ogni festa comincia con una buona ragione per stare insieme. Alla Magnatora, l’esperienza nell’accoglienza incontra l’attenzione per i dettagli del tuo evento.</p></div></div>
-      <div class="events-grid">{occasions.map(({ title, note }) => <article><h3>{title}</h3><p>{note}</p></article>)}</div>
-      <div class="event-contact"><p>Raccontaci l’occasione, la data e quante persone vorresti invitare.</p><a class="text-link" href={`mailto:${restaurant.email}?subject=${encodeURIComponent('Informazioni per un evento')}`}>Parliamo del tuo evento</a></div>
-    </div></section>
-
-    <section class="booking-section" id="prenota" aria-labelledby="booking-title"><div class="wrap booking-inner">
-      <p class="eyebrow">Ti aspettiamo a Fondi</p><h2 id="booking-title">Un posto a tavola.</h2>
-      <p>Per prenotare, chiamaci. Per informazioni o per organizzare un evento, puoi anche scriverci.</p>
-      <div class="booking-contact"><a class="text-link" href={`tel:${restaurant.telephone}`}>Chiama {restaurant.telephoneLabel}</a><a class="text-link" href={`mailto:${restaurant.email}`}>Scrivici via email</a></div>
-      <div class="visit-info">
-        <div><span class="eyebrow">Dove trovarci</span><address>{restaurant.address}</address><a class="text-link" href={restaurant.maps} target="_blank" rel="noopener noreferrer">Indicazioni stradali <span aria-hidden="true">↗</span></a></div>
-        <div><span class="eyebrow">Pranzo e cena</span><p>Lunedì, martedì e da giovedì a domenica<br />{restaurant.hours}</p><p class="closing-day">{restaurant.closed}</p></div>
-        <div><span class="eyebrow">Contatti</span><p><a href={`tel:${restaurant.telephone}`}>{restaurant.telephoneLabel}</a></p><p><a href={`mailto:${restaurant.email}`}>{restaurant.email}</a></p></div>
+    <section class="events-section section-space" id="eventi" aria-labelledby="events-title"><div class="wrap events-layout">
+      <div class="events-aside">
+        <div data-reveal><p class="eyebrow">Eventi e ricevimenti</p><h2 id="events-title">Le occasioni<br />da ricordare.</h2><p>Ogni festa comincia con una buona ragione per stare insieme. Alla Magnatora, l’esperienza nell’accoglienza incontra l’attenzione per i dettagli del vostro evento.</p></div>
+        <figure class="frame events-picture" data-reveal><picture><source srcset="/posters/hero-mobile.avif" type="image/avif" /><img src="/posters/hero-mobile.webp" alt="La sala di Elementa illuminata dalla lampada e dalla candela." width="1080" height="1920" loading="lazy" /></picture></figure>
+      </div>
+      <div class="events-list">
+        {occasions.map(({ title, note }) => <article data-reveal><h3>{title}</h3><p>{note}</p></article>)}
+        <div class="event-contact" data-reveal><p>Raccontateci l’occasione, la data e quante persone vorreste invitare.</p><a class="text-link" href={`mailto:${restaurant.email}?subject=${encodeURIComponent('Informazioni per un evento')}`}>Parliamo del vostro evento</a></div>
       </div>
     </div></section>
+
+    <section class="booking-section" id="prenota" aria-labelledby="booking-title"><div class="wrap booking-layout">
+      <div class="booking-main">
+        <p class="eyebrow" data-reveal>Vi aspettiamo a Fondi</p>
+        <h2 id="booking-title" data-reveal>Un posto a tavola.</h2>
+        <div class="booking-contact" data-reveal>
+          <p>Per prenotare, chiamateci. Per informazioni o per organizzare un evento, potete anche scriverci.</p>
+          <a class="booking-phone" href={`tel:${restaurant.telephone}`}>{restaurant.telephoneLabel}</a>
+          <a class="text-link" href={`mailto:${restaurant.email}`}>{restaurant.email}</a>
+        </div>
+      </div>
+
+      <aside class="visit" aria-label="Orari e indirizzo" data-reveal>
+        <p class="open-status" data-open-status><span class="open-status__dot" aria-hidden="true"></span><span data-open-status-text>Pranzo e cena, {restaurant.closed.toLowerCase()}</span></p>
+        <table class="hours">
+          <caption class="visually-hidden">Orari settimanali</caption>
+          <tbody>{week.map(({ day, open }, i) => <tr data-weekday={(i + 1) % 7}><th scope="row">{day}</th><td>{open ? hoursLabel : 'Chiuso'}</td></tr>)}</tbody>
+        </table>
+        <div class="visit__block">
+          <span class="eyebrow">Dove trovarci</span>
+          <address>{restaurant.address}</address>
+          <a class="text-link" href={restaurant.maps} target="_blank" rel="noopener noreferrer">Indicazioni stradali <span aria-hidden="true">↗</span></a>
+        </div>
+      </aside>
+    </div></section>
   </main>
-  <footer class="site-footer wrap"><a class="brand" href="#top" aria-label="Elementa – La Magnatora, torna all’inizio"><span class="brand__name">ELEMENTA</span><span class="brand__signature">La Magnatora</span></a><p class="footer-details">Fondi · Via Fossella 5<br />P. IVA {restaurant.vat}</p><a class="back-top" href="#top">Torna su ↑</a></footer>
+
+  <footer class="site-footer"><div class="wrap site-footer__inner">
+    <a class="brand" href="#top" aria-label="Elementa – La Magnatora, torna all’inizio"><span class="brand__name">ELEMENTA</span><span class="brand__signature">La Magnatora</span></a>
+    <nav aria-label="Navigazione a piè di pagina">{nav.map((item) => <a href={item.href}>{item.label}</a>)}<a href="#prenota">Prenota</a></nav>
+    <p class="footer-details">{restaurant.address}<br />P. IVA {restaurant.vat}</p>
+    <a class="back-top" href="#top">Torna su</a>
+  </div></footer>
 </Base>
 
 <script>
@@ -101,6 +167,7 @@ const chapters = [
   if (track) {
     const shell = track.querySelector<HTMLElement>('.scene-shell')!;
     const header = document.querySelector<HTMLElement>('.site-header')!;
+    const dark = document.querySelectorAll<HTMLElement>('.booking-section, .site-footer');
     let queued = false;
     const update = () => {
       const stickyTop = parseFloat(getComputedStyle(shell).top) || 0;
@@ -115,7 +182,12 @@ const chapters = [
       const fade = exit * exit * (3 - 2 * exit);
       track.style.setProperty('--exit-opacity', String(fade));
       track.dataset.exiting = String(exit > 0.85);
-      header.classList.toggle('on-paper', (staticScene ? track.querySelector('.scene-frame')! : track).getBoundingClientRect().bottom <= header.offsetHeight);
+      const h = header.offsetHeight;
+      const onPaper = (staticScene ? track.querySelector('.scene-frame')! : track).getBoundingClientRect().bottom <= h;
+      // The closing returns to the warm dark of the room: the header follows it.
+      const inNight = [...dark].some((el) => { const r = el.getBoundingClientRect(); return r.top <= h / 2 && r.bottom > h / 2; });
+      header.classList.toggle('on-paper', onPaper && !inNight);
+      header.classList.toggle('on-night', inNight);
       queued = false;
     };
     const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
@@ -125,4 +197,8 @@ const chapters = [
     new ResizeObserver(schedule).observe(shell);
     update();
   }
+</script>
+
+<script>
+  import '../scripts/landing';
 </script>

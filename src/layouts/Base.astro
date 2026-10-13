@@ -24,6 +24,7 @@ const { title, description } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/posters/hero-desktop.webp" />
     <meta property="og:type" content="website" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <slot name="head" />
   </head>
   <body>
