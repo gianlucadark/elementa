@@ -1,0 +1,624 @@
+{
+  "version": 1,
+  "units": "metres, Y-up (glTF)",
+  "bake": {
+    "scale": 1,
+    "samples": 256,
+    "date": "2026-10-12 21:27"
+  },
+  "radianceEncoding": "linear texel e; radiance = s * (2^(e * L) - 1)  (textures flipY = false)",
+  "surfaceEncoding": "linear; R coat weight, G roughness, B coat roughness, A specular IOR level",
+  "colorManagement": {
+    "view": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.5,
+    "gamma": 1,
+    "lut": {
+      "file": "view_lut.png",
+      "size": 65,
+      "log2Range": [
+        -12.47393,
+        4.026069
+      ],
+      "middleGrey": 0.18,
+      "view": "AgX",
+      "look": "AgX - Medium High Contrast",
+      "display": "sRGB",
+      "layout": "strip N*N x N; x = r + b*N, y = g (top row g=0); output display-encoded"
+    }
+  },
+  "compositor": {
+    "bloom": {
+      "Threshold": 1.2000000476837158,
+      "Strength": 0.2199999988079071,
+      "Size": 0.6000000238418579
+    },
+    "lensDistortion": {
+      "Distortion": -0.004000000189989805,
+      "Dispersion": 0.006000000052154064
+    },
+    "vignette": {
+      "ellipse": [
+        0.949999988079071,
+        0.8500000238418579
+      ],
+      "blurPx": [
+        250,
+        250
+      ],
+      "amount": 0.41999998688697815
+    }
+  },
+  "world": {
+    "strength": 0.029999999329447746
+  },
+  "groups": {
+    "table": {
+      "class": "lm",
+      "res": 2048,
+      "radiance": "table_radiance.webp",
+      "surface": "table_surface.webp",
+      "s": 0.0001,
+      "L": 10.259050228642248,
+      "alphaTest": false,
+      "coverage": 0.828,
+      "aoInAlpha": true
+    },
+    "chairs": {
+      "class": "lm",
+      "res": 2048,
+      "radiance": "chairs_radiance.webp",
+      "surface": "chairs_surface.webp",
+      "s": 0.0001,
+      "L": 11.064276053556814,
+      "alphaTest": false,
+      "coverage": 0.598,
+      "aoInAlpha": true
+    },
+    "tableware": {
+      "class": "lm",
+      "res": 2048,
+      "radiance": "tableware_radiance.webp",
+      "surface": "tableware_surface.webp",
+      "s": 0.0001,
+      "L": 15.287748446474637,
+      "alphaTest": true,
+      "coverage": 0.603
+    },
+    "walls": {
+      "class": "lm",
+      "res": 2048,
+      "radiance": "walls_radiance.webp",
+      "surface": "walls_surface.webp",
+      "s": 0.0001,
+      "L": 15.287748446474637,
+      "alphaTest": false,
+      "coverage": 0.86,
+      "aoInAlpha": true
+    },
+    "room": {
+      "class": "lm",
+      "res": 1024,
+      "radiance": "room_radiance.webp",
+      "surface": "room_surface.webp",
+      "s": 0.0001,
+      "L": 13.566784983779517,
+      "alphaTest": false,
+      "coverage": 0.919,
+      "aoInAlpha": true
+    },
+    "unlit": {
+      "class": "unlit",
+      "res": 1024,
+      "radiance": "unlit_radiance.webp",
+      "s": 0.0001,
+      "L": 18.006151240135843
+    },
+    "glassbaked": {
+      "class": "glassbaked",
+      "res": 1024,
+      "radiance": "glassbaked_radiance.webp",
+      "s": 0.00010103474487550558,
+      "L": 16.271592756683397
+    }
+  },
+  "materials": {
+    "MX_table": {
+      "class": "lm",
+      "group": "table"
+    },
+    "MX_chairs": {
+      "class": "lm",
+      "group": "chairs"
+    },
+    "MX_tableware": {
+      "class": "lm",
+      "group": "tableware"
+    },
+    "MX_walls": {
+      "class": "lm",
+      "group": "walls"
+    },
+    "MX_room": {
+      "class": "lm",
+      "group": "room"
+    },
+    "MX_unlit": {
+      "class": "unlit",
+      "group": "unlit"
+    },
+    "MX_glassbaked": {
+      "class": "glassbaked",
+      "group": "glassbaked"
+    },
+    "MX_Steel_Cutlery": {
+      "class": "metal",
+      "color": [
+        0.8,
+        0.78,
+        0.75
+      ],
+      "roughness": 0.17,
+      "ior": 1.5,
+      "metallic": 1,
+      "anisotropy": 0.3
+    },
+    "MX_Gilded_Frame": {
+      "class": "metal",
+      "color": [
+        0.735,
+        0.535,
+        0.23
+      ],
+      "roughness": 0.32,
+      "ior": 1.5,
+      "metallic": 1
+    },
+    "MX_Brass_Aged": {
+      "class": "metal",
+      "color": [
+        0.7,
+        0.5,
+        0.25
+      ],
+      "roughness": 0.3,
+      "ior": 1.5,
+      "metallic": 1
+    },
+    "MX_Flame": {
+      "class": "flame"
+    }
+  },
+  "cameras": {
+    "Camera_Desktop": {
+      "position": [
+        -0.98,
+        1.12,
+        2.1
+      ],
+      "quaternion": [
+        -0.05294,
+        -0.221202,
+        -0.012027,
+        0.973716
+      ],
+      "target": [
+        0.05,
+        0.86,
+        -0.05
+      ],
+      "lens": 44,
+      "sensorWidth": 36,
+      "sensorFit": "AUTO",
+      "shiftX": -0.15000000596046448,
+      "shiftY": 0.05000000074505806,
+      "fstop": 1.7999999523162842,
+      "blades": 7,
+      "focus": [
+        -0.02,
+        0.86,
+        0.15
+      ],
+      "focusDistance": 2.188752,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "scene": "01_Hero_Desktop",
+      "exposure": 0.5
+    },
+    "Camera_Desktop_Alt": {
+      "position": [
+        -2.05,
+        1.08,
+        1.95
+      ],
+      "quaternion": [
+        -0.028327,
+        -0.390313,
+        -0.012016,
+        0.920168
+      ],
+      "target": [
+        0.05,
+        0.9,
+        -0.08
+      ],
+      "lens": 50,
+      "sensorWidth": 36,
+      "sensorFit": "AUTO",
+      "shiftX": -0.1899999976158142,
+      "shiftY": 0.03999999910593033,
+      "fstop": 2,
+      "blades": 7,
+      "focus": [
+        0,
+        0.9,
+        0.05
+      ],
+      "focusDistance": 2.800249,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "scene": "02_Hero_Desktop_Alt",
+      "exposure": 0.44999998807907104
+    },
+    "Camera_Mobile": {
+      "position": [
+        -0.8,
+        1.38,
+        1.98
+      ],
+      "quaternion": [
+        -0.087173,
+        -0.191625,
+        -0.01709,
+        0.97744
+      ],
+      "target": [
+        0.04,
+        0.98,
+        -0.08
+      ],
+      "lens": 36,
+      "sensorWidth": 36,
+      "sensorFit": "AUTO",
+      "shiftX": 0,
+      "shiftY": -0.029999999329447746,
+      "fstop": 2,
+      "blades": 7,
+      "focus": [
+        0,
+        0.88,
+        0.05
+      ],
+      "focusDistance": 2.144709,
+      "resolution": [
+        1080,
+        1920
+      ],
+      "scene": "03_Hero_Mobile",
+      "exposure": 0.5
+    },
+    "Camera_Detail": {
+      "position": [
+        0.72,
+        0.95,
+        0.46
+      ],
+      "quaternion": [
+        -0.062208,
+        0.464397,
+        0.032723,
+        0.882833
+      ],
+      "target": [
+        0.08,
+        0.84,
+        0.02
+      ],
+      "lens": 55,
+      "sensorWidth": 36,
+      "sensorFit": "AUTO",
+      "shiftX": 0,
+      "shiftY": 0,
+      "fstop": 2,
+      "blades": 7,
+      "focus": [
+        0.13,
+        0.81,
+        0.11
+      ],
+      "focusDistance": 0.697339,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "scene": "04_Detail_CloseUp",
+      "exposure": 0.5
+    }
+  },
+  "lights": [
+    {
+      "name": "L_Candle",
+      "type": "POINT",
+      "position": [
+        0.0004,
+        1.168,
+        0
+      ],
+      "kelvin": 1850,
+      "color": [
+        1,
+        0.2237,
+        0
+      ],
+      "energy": 3,
+      "direction": [
+        0,
+        -1,
+        0
+      ],
+      "radius": 0.006000000052154064,
+      "flicker": "animate energy 1.6-2.6 and location jitter +-1.5mm for web"
+    },
+    {
+      "name": "L_Lamp_Bulb",
+      "type": "POINT",
+      "position": [
+        2.24,
+        1.18,
+        -2.35
+      ],
+      "kelvin": 2400,
+      "color": [
+        1,
+        0.3345,
+        0.0422
+      ],
+      "energy": 18,
+      "direction": [
+        0,
+        -1,
+        0
+      ],
+      "radius": 0.029999999329447746
+    },
+    {
+      "name": "L_Sconce_Up",
+      "type": "AREA",
+      "position": [
+        2.58,
+        1.93,
+        0.2
+      ],
+      "kelvin": 2500,
+      "color": [
+        1,
+        0.3541,
+        0.0583
+      ],
+      "energy": 12,
+      "direction": [
+        0.018688,
+        0.999825,
+        0
+      ],
+      "size": [
+        0.11999999731779099,
+        0.11999999731779099
+      ],
+      "spread": 3.1415927410125732
+    },
+    {
+      "name": "L_Key_TableSpot",
+      "type": "SPOT",
+      "position": [
+        0.3,
+        2.95,
+        0.45
+      ],
+      "kelvin": 3700,
+      "color": [
+        1,
+        0.5735,
+        0.318
+      ],
+      "energy": 125,
+      "direction": [
+        -0.132991,
+        -0.970834,
+        -0.199486
+      ],
+      "radius": 0.18000000715255737,
+      "spotSize": 0.5410520434379578,
+      "spotBlend": 0.8500000238418579
+    },
+    {
+      "name": "L_Rim_Back",
+      "type": "AREA",
+      "position": [
+        0.9,
+        2.05,
+        -1.6
+      ],
+      "kelvin": 3900,
+      "color": [
+        1,
+        0.6074,
+        0.3655
+      ],
+      "energy": 16,
+      "direction": [
+        -0.410365,
+        -0.547153,
+        0.729537
+      ],
+      "size": [
+        0.8999999761581421,
+        0.5
+      ],
+      "spread": 1.0471975803375244
+    },
+    {
+      "name": "L_Fill_Front",
+      "type": "AREA",
+      "position": [
+        -1.6,
+        1.6,
+        2.6
+      ],
+      "kelvin": 4300,
+      "color": [
+        1,
+        0.6731,
+        0.4607
+      ],
+      "energy": 4,
+      "direction": [
+        0.506979,
+        -0.25349,
+        -0.823841
+      ],
+      "size": [
+        1.600000023841858,
+        1.600000023841858
+      ],
+      "spread": 3.1415927410125732
+    },
+    {
+      "name": "L_Wall_Graze_Left",
+      "type": "AREA",
+      "position": [
+        -1.4,
+        2.7,
+        -1.5
+      ],
+      "kelvin": 3200,
+      "color": [
+        1,
+        0.4856,
+        0.2015
+      ],
+      "energy": 1.5,
+      "direction": [
+        -0.116642,
+        -0.758175,
+        -0.641533
+      ],
+      "size": [
+        1.2000000476837158,
+        0.30000001192092896
+      ],
+      "spread": 3.1415927410125732
+    }
+  ],
+  "env": {
+    "file": "env.exr",
+    "position": [
+      0,
+      1.15,
+      0
+    ],
+    "visibleLights": [
+      "L_Fill_Front",
+      "L_Key_TableSpot",
+      "L_Lamp_Bulb",
+      "L_Sconce_Up",
+      "L_Wall_Graze_Left"
+    ],
+    "mapping": "equirect, three.js convention"
+  },
+  "envGlass": {
+    "file": "env_glass.exr",
+    "position": [
+      0,
+      0.92,
+      0
+    ],
+    "visibleLights": [
+      "L_Fill_Front",
+      "L_Key_TableSpot",
+      "L_Lamp_Bulb",
+      "L_Rim_Back",
+      "L_Sconce_Up",
+      "L_Wall_Graze_Left"
+    ],
+    "mapping": "equirect, three.js convention"
+  },
+  "candle": {
+    "light": "L_Candle",
+    "flame": "Candle_Flame",
+    "energyRange": [
+      1.6,
+      2.6
+    ],
+    "jitter": 0.0015,
+    "flameHeight": 0.03,
+    "flameTop": [
+      0.0004,
+      1.1545,
+      0
+    ],
+    "lightPosition": [
+      0.0004,
+      1.168,
+      0
+    ]
+  },
+  "meshes": {
+    "G_table": {
+      "faces": 10816,
+      "verts": 10662
+    },
+    "G_chairs": {
+      "faces": 18352,
+      "verts": 18392
+    },
+    "G_tableware": {
+      "faces": 88942,
+      "verts": 89015
+    },
+    "G_walls": {
+      "faces": 2400,
+      "verts": 2354
+    },
+    "G_room": {
+      "faces": 109,
+      "verts": 228
+    },
+    "G_unlit": {
+      "faces": 966,
+      "verts": 1018
+    },
+    "G_glassbaked": {
+      "faces": 25180,
+      "verts": 24012
+    },
+    "G_Cutlery": {
+      "faces": 3939,
+      "verts": 3582
+    },
+    "Painting_Frame": {
+      "faces": 150,
+      "verts": 152
+    },
+    "Sconce": {
+      "faces": 480,
+      "verts": 450
+    },
+    "Candle_Flame": {
+      "faces": 768,
+      "verts": 738
+    }
+  },
+  "tiers": {
+    "desktop": {
+      "scale": 1
+    },
+    "mobile": {
+      "scale": 0.5
+    }
+  }
+}
