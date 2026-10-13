@@ -21,7 +21,7 @@ function hasWebGL2() {
 }
 
 /**
- * null = no 3D: the Cycles poster stays (no WebGL2, data saver, or a GPU detect-gpu rates 0).
+ * null = text-only hero (no WebGL2, data saver, or a GPU detect-gpu rates 0).
  * Benchmarks are served by the site (public/gpu-benchmarks), not fetched from unpkg.
  */
 export async function chooseQuality(): Promise<Quality | null> {

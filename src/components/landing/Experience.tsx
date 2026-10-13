@@ -16,8 +16,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * A contained editorial scene, driven by #scrolly and ending before the menu.
- * The Cycles poster underneath is the first paint; the canvas fades in over it once the scene has
- * rendered, and the poster is all that remains if WebGL is missing, too slow, or lost.
+ * The editorial loader stays visible until the scene has rendered its first frames.
+ * Unsupported devices get a text-only hero, never a substitute scene image.
  */
 
 interface Input {
@@ -128,15 +128,17 @@ export default function Experience() {
   const [needsTiltPermission, setNeedsTiltPermission] = useState(false);
   const input = useRef<Input>({ progress: 0, px: 0, py: 0 });
   const stage = useRef<HTMLDivElement>(null);
+  const loadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tiltHandler = useRef<((e: DeviceOrientationEvent) => void) | null>(null);
   const still = useMemo(() => typeof window !== 'undefined' && reducedMotion(), []);
 
-  // decide and load after first paint: the poster is the LCP, the 3D must not compete with it
+  // Start immediately; the server-rendered loader already covers the frame.
   useEffect(() => {
     let alive = true;
+    document.documentElement.dataset.webgl = 'loading';
+    loadTimer.current = setTimeout(() => { if (alive) setFailed(true); }, 30000);
     const start = async () => {
       try {
-        if (still) return setFailed(true);
         const q = await chooseQuality();
         if (!alive) return;
         if (!q) return setFailed(true);
@@ -150,12 +152,10 @@ export default function Experience() {
         if (alive) setFailed(true);
       }
     };
-    const idle = 'requestIdleCallback' in window;
-    const handle = idle ? window.requestIdleCallback(start, { timeout: 1500 }) : window.setTimeout(start, 300);
+    void start();
     return () => {
       alive = false;
-      if (idle) window.cancelIdleCallback(handle);
-      else window.clearTimeout(handle);
+      if (loadTimer.current) clearTimeout(loadTimer.current);
     };
   }, [still]);
 
@@ -231,14 +231,18 @@ export default function Experience() {
   const dof = useMemo<DofState>(() => ({ enabled: true, lens: 44, fstop: 1.8, sensorWidth: 36, focusDistance: 2.2 }), []);
 
   useEffect(() => {
-    if (failed) document.documentElement.dataset.webgl = 'off';
+    if (failed) {
+      if (loadTimer.current) clearTimeout(loadTimer.current);
+      document.documentElement.dataset.webgl = 'off';
+      window.dispatchEvent(new Event('elementa:scene'));
+    }
   }, [failed]);
 
   if (failed || !meta || !quality || !path || !look) return null;
 
   return (
     <>
-      <div ref={stage} className="experience" aria-hidden="true">
+      <Boundary onError={() => setFailed(true)}><div ref={stage} className="experience" aria-hidden="true">
         <Canvas
           dpr={quality.dpr}
           camera={{ near: 0.05, far: 30 }}
@@ -259,7 +263,11 @@ export default function Experience() {
                   dof={dof}
                   still={still}
                   stage={stage}
-                  onFirstFrames={() => (document.documentElement.dataset.webgl = 'ready')}
+                  onFirstFrames={() => {
+                    if (loadTimer.current) clearTimeout(loadTimer.current);
+                    document.documentElement.dataset.webgl = 'ready';
+                    window.dispatchEvent(new Event('elementa:scene'));
+                  }}
                 />
                 <ElementaScene meta={meta} tier={quality.tier} flicker={!still} reflection={quality.reflection} />
                 <PostPipeline
@@ -272,7 +280,7 @@ export default function Experience() {
             </Suspense>
           </Boundary>
         </Canvas>
-      </div>
+      </div></Boundary>
       {needsTiltPermission && (
         <button className="tilt-toggle" type="button" onClick={enableTilt}>
           Attiva il movimento

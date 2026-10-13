@@ -12,10 +12,8 @@ const chapters = [
 ---
 
 <Base title="Elementa – La Magnatora | Ristorante e pizzeria a Fondi" description="A Fondi, oltre mezzo secolo di ospitalità. Cucina di mare e di terra, pasta fatta in casa, pizza al forno a legna ed eventi. Scopri Elementa – La Magnatora.">
-  <link slot="head" rel="preload" as="image" href="/posters/hero-desktop.avif" type="image/avif" media="(min-width: 701px)" fetchpriority="high" />
-  <link slot="head" rel="preload" as="image" href="/posters/hero-mobile.avif" type="image/avif" media="(max-width: 700px)" fetchpriority="high" />
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
-  <noscript><style is:inline>.scene-story{height:auto!important}.scene-shell{position:relative!important;top:0!important;height:auto!important}.scene-lines{display:flex!important;flex-direction:column;gap:15px}.scene-line{visibility:visible!important;opacity:1!important}.scene-index,.scene-skip,.scene-progress{display:none!important}.scene-editorial{position:relative!important;inset:auto!important;display:block!important;visibility:visible!important;opacity:1!important;padding:30px var(--gutter)!important;background:var(--bg)!important;color:var(--ink)!important}.scene-line p{color:var(--ink-soft)!important}.site-header{background:var(--bg)!important;color:var(--bordeaux)!important}.site-header .brand,.site-header .header-book{color:var(--bordeaux)!important}.site-header .header-book{border-color:var(--bordeaux)!important}</style></noscript>
+  <noscript><style is:inline>.scene-loader{display:none!important}.hero{visibility:visible!important}.scene-unavailable{display:none!important}.scene-story{height:auto!important}.scene-shell{position:relative!important;top:0!important;height:auto!important}.scene-lines{display:flex!important;flex-direction:column;gap:15px}.scene-line{visibility:visible!important;opacity:1!important}.scene-index,.scene-skip,.scene-progress{display:none!important}.scene-editorial{position:relative!important;inset:auto!important;display:block!important;visibility:visible!important;opacity:1!important;padding:30px var(--gutter)!important;background:var(--bg)!important;color:var(--ink)!important}.scene-line p{color:var(--ink-soft)!important}.site-header{background:var(--bg)!important;color:var(--bordeaux)!important}.site-header .brand,.site-header .header-book{color:var(--bordeaux)!important}.site-header .header-book{border-color:var(--bordeaux)!important}</style></noscript>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Elementa – La Magnatora, inizio pagina"><span class="brand__name">ELEMENTA</span><span class="brand__signature">La Magnatora</span></a>
     <nav aria-label="Navigazione principale"><a class="nav-story" href="#storia">La nostra storia</a><a href="#menu">La cucina</a><a class="nav-wine" href="#cantina">La cantina</a><a class="nav-events" href="#eventi">Eventi</a></nav>
@@ -27,13 +25,23 @@ const chapters = [
     <section id="scrolly" class="scene-story" aria-labelledby="hero-title" data-chapter="0" data-intro="true">
       <div class="scene-shell">
         <div class="scene-frame">
-          <picture class="poster"><source media="(max-width: 700px)" srcset="/posters/hero-mobile.avif" type="image/avif" /><source media="(max-width: 700px)" srcset="/posters/hero-mobile.webp" /><source srcset="/posters/hero-desktop.avif" type="image/avif" /><img src="/posters/hero-desktop.webp" alt="La tavola di Elementa ricostruita in 3D: legno, vetri ambrati e una candela accesa." width="1920" height="1080" fetchpriority="high" /></picture>
+          <div class="scene-loader" role="status" aria-live="polite">
+            <div class="scene-loader__setting" aria-hidden="true">
+              <span class="scene-loader__line scene-loader__line--left"></span>
+              <svg viewBox="0 0 160 160" fill="none"><circle class="scene-loader__rim" cx="80" cy="80" r="65" /><circle class="scene-loader__plate" cx="80" cy="80" r="49" /></svg>
+              <span class="scene-loader__monogram">e.</span>
+              <span class="scene-loader__line scene-loader__line--right"></span>
+            </div>
+            <p class="scene-loader__title">Prepariamo la tavola.</p>
+            <p class="scene-loader__caption">Ancora un istante, poi accomodatevi.</p>
+            <a class="scene-loader__skip" href="#storia">Esplora il ristorante <span aria-hidden="true">↓</span></a>
+          </div>
           <Experience client:only="react" />
           <div class="scene-shade" aria-hidden="true"></div>
           <div class="scene-exit" aria-hidden="true"></div>
           <div class="hero">
             <div class="hero__heading"><p class="eyebrow">Ristorante · Pizzeria · Fondi</p><h1 id="hero-title">Prima che<br /><em>arriviate.</em></h1></div>
-            <div class="hero__aside"><p>Il tempo di stare bene, insieme.</p><a class="text-link" href="#prenota">Prenota un tavolo</a></div>
+            <div class="hero__aside"><p class="scene-unavailable">La visita 3D non è disponibile. Scopri il ristorante qui sotto.</p><p>Il tempo di stare bene, insieme.</p><a class="text-link" href="#prenota">Prenota un tavolo</a></div>
             <div class="hero__bottom eyebrow"><a href="#storia">Scopri Elementa</a></div>
           </div>
         </div>
@@ -113,6 +121,7 @@ const chapters = [
     const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('elementa:scene', schedule);
     new ResizeObserver(schedule).observe(shell);
     update();
   }
